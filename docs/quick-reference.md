@@ -356,4 +356,4 @@ $metrics = Cache::remember('dashboard_metrics', 300, function () {
 - **API Docs**: [docs/api.md](api.md)
 - **Postman Collection**: [docs/postman-collection.json](postman-collection.json)
 - **Issues**: GitHub Issues
-- **Email**: support@taskmanagement.com
+- **Email**: jabatayo@gmail.com

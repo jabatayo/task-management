@@ -55,7 +55,7 @@ A modern, secure, and robust task management platform built with Laravel 12 and 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-repo/task-management.git
+   git clone https://github.com/jabatayo/task-management.git
    cd task-management
    ```
 
@@ -501,8 +501,8 @@ GET /api/about
             "role": "Lead Developer"
         }
     ],
-    "repository": "https://github.com/your-repo/task-management",
-    "contact_email": "support@taskmanagement.com"
+    "repository": "https://github.com/jabatayo/task-management",
+    "contact_email": "jabatayo@gmail.com"
 }
 ```
 
@@ -672,6 +672,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support and questions:
 
-- Email: support@taskmanagement.com
+- Email: jabatayo@gmail.com
 - Documentation: [API Docs](docs/api.md)
-- Issues: [GitHub Issues](https://github.com/your-repo/task-management/issues)
+- Issues: [GitHub Issues](https://github.com/jabatayo/task-management/issues)

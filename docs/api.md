@@ -491,8 +491,8 @@ Retrieves static information about the application.
             "role": "Lead Developer"
         }
     ],
-    "repository": "https://github.com/your-repo/task-management",
-    "contact_email": "support@taskmanagement.com"
+    "repository": "https://github.com/jabatayo/task-management",
+    "contact_email": "jabatayo@gmail.com"
 }
 ```
 
@@ -668,6 +668,6 @@ $response->assertStatus(201);
 
 For API support and questions:
 
-- Email: support@taskmanagement.com
+- Email: jabatayo@gmail.com
 - Documentation: [Main README](../README.md)
-- Issues: [GitHub Issues](https://github.com/your-repo/task-management/issues)
+- Issues: [GitHub Issues](https://github.com/jabatayo/task-management/issues)

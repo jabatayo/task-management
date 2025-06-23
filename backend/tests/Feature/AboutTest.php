@@ -30,8 +30,8 @@ class AboutTest extends TestCase
         $this->assertEquals('1.0.0', $data['version']);
         $this->assertStringContainsString('Laravel', $data['description']);
         $this->assertStringContainsString('React', $data['description']);
-        $this->assertEquals('https://github.com/your-repo/task-management', $data['repository']);
-        $this->assertEquals('support@taskmanagement.com', $data['contact_email']);
+        $this->assertEquals('https://github.com/jabatayo/task-management', $data['repository']);
+        $this->assertEquals('jabatayo@gmail.com', $data['contact_email']);
     }
 
     /** @test */

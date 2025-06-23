@@ -67,7 +67,7 @@ class ContactController extends Controller
                 ]
             ],
             'contact' => [
-                'email' => 'support@taskmanagement.com',
+                'email' => 'jabatayo@gmail.com',
                 'phone' => '+1 (555) 123-4567',
                 'address' => '123 Task Management Ave, Tech City, TC 12345'
             ]
