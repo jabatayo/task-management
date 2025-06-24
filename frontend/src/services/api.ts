@@ -2,7 +2,6 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 import {
   User,
   Task,
-  DashboardMetrics,
   ContactMessage,
   AboutInfo,
   LoginCredentials,
@@ -153,6 +152,11 @@ class ApiService {
       from: meta.from,
       to: meta.to,
     };
+  }
+
+  async getUsers(): Promise<User[]> {
+    const response: AxiosResponse<User[]> = await this.api.get("/users");
+    return response.data;
   }
 
   async getTask(id: number): Promise<Task> {

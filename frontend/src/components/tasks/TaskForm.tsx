@@ -1,24 +1,44 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiService } from "../../services/api";
-import { Task, TaskStatus, TaskPriority } from "../../types";
+import { Task, TaskStatus, TaskPriority, User } from "../../types";
 import LoadingSpinner from "../common/LoadingSpinner";
+
+interface TaskFormData {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  due_date: string;
+  assigned_to: string;
+}
 
 const TaskForm: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const isEditing = !!id;
 
-  const [formData, setFormData] = useState<Partial<Task>>({
+  const [formData, setFormData] = useState<TaskFormData>({
     title: "",
     description: "",
     status: TaskStatus.PENDING,
     priority: TaskPriority.MEDIUM,
     due_date: "",
+    assigned_to: "",
   });
+  const [users, setUsers] = useState<User[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEditing);
+
+  const fetchUsers = useCallback(async () => {
+    try {
+      const usersData = await apiService.getUsers();
+      setUsers(usersData);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  }, []);
 
   const fetchTask = useCallback(async () => {
     try {
@@ -30,6 +50,7 @@ const TaskForm: React.FC = () => {
         status: task.status,
         priority: task.priority,
         due_date: task.due_date ? task.due_date.split("T")[0] : "",
+        assigned_to: task.assigned_to ? task.assigned_to.toString() : "",
       });
     } catch (error: any) {
       console.error("Failed to fetch task:", error);
@@ -40,10 +61,11 @@ const TaskForm: React.FC = () => {
   }, [id, navigate]);
 
   useEffect(() => {
+    fetchUsers();
     if (isEditing) {
       fetchTask();
     }
-  }, [isEditing, fetchTask]);
+  }, [isEditing, fetchTask, fetchUsers]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -94,10 +116,22 @@ const TaskForm: React.FC = () => {
 
     setLoading(true);
     try {
+      // Prepare the data to send - convert form data to API format
+      const taskData: Partial<Task> = {
+        title: formData.title,
+        description: formData.description,
+        status: formData.status,
+        priority: formData.priority,
+        due_date: formData.due_date,
+        assigned_to: formData.assigned_to
+          ? parseInt(formData.assigned_to, 10)
+          : undefined,
+      };
+
       if (isEditing) {
-        await apiService.updateTask(parseInt(id!), formData);
+        await apiService.updateTask(parseInt(id!), taskData);
       } else {
-        await apiService.createTask(formData);
+        await apiService.createTask(taskData);
       }
       navigate("/tasks");
     } catch (error: any) {
@@ -241,6 +275,35 @@ const TaskForm: React.FC = () => {
             {errors.due_date && (
               <p className="mt-1 text-sm text-red-600">{errors.due_date}</p>
             )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="assigned_to"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Assign To
+            </label>
+            <select
+              id="assigned_to"
+              name="assigned_to"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              value={formData.assigned_to || ""}
+              onChange={handleChange}
+            >
+              <option value="">
+                Leave unassigned (will assign to creator)
+              </option>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name} ({user.email})
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-sm text-gray-500">
+              If left unassigned, the task will be automatically assigned to
+              you.
+            </p>
           </div>
 
           <div className="flex justify-end space-x-3">
